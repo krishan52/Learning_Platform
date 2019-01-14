@@ -1,0 +1,91 @@
+<%- include('../partials/header') %>
+
+<main class="main-courseDetails">
+
+	<div class="container-courseDetails">
+		<img class="card-img-top image-courseDetails" src="/images/teacher.jpeg" alt="Course image">
+		<div class="one-info">
+			<h2 class="h2-courseDetails"><%= course.title %></h2>
+			<p><strong>Instructor: </strong> <%= course.instructor %></p>
+
+			<% if (currentUser) { %>
+				<% if (currentUser.type == 'instructor' && course.instructor == currentUser.username) { %>
+					<a class="btn btn-lg btn-primary title-right" href="/instructors/<%= course._id %>/createLesson">
+						Add Lesson
+					</a>
+					<% } else if (currentUser.type == 'student' && !course.students.some(function(student) { return student.student_username == currentUser.username})) { %>
+					  <form id="classRegForm" method="post" action="/<%= currentUser.type %>s/course/register">
+							<input type="hidden" name="student_username" value="<%= currentUser.username %>">
+							<input type="hidden" name="course_id" value="<%= course._id %>">
+							<input type="hidden" name="course_title" value="<%= course.title %>">
+							<input type="submit" class="btn btn-lg btn-primary title-right" value="Register For This Course">
+						</form>
+					<% } %>
+			<% } else { %>
+				<a class="btn btn-lg btn-primary title-right" href="/users/login">
+					Login to register for this course
+				</a>
+			<% } %>
+		</div>
+
+	</div> <!-- END CONTAINER ONE -->
+
+	<div class="container">
+		<div class="card-body">
+			<p><%= course.description %></p>
+			<ul class="list-group">
+			  <% course.lessons.forEach(function(lesson) { %>
+					<li class="list-group-item"><%= lesson.lesson_number %>. <%= lesson.lesson_title %> <a class="lesson-title-right" href="/courses/<%= course._id %>/lessons/<%= lesson._id %>">View Lesson</a></li>
+				<% }); %>
+			</ul>
+		</div>
+	</div>
+
+
+</main>
+
+
+
+
+
+<!-- <div class="container">
+	<h2><%= course.title %></h2>
+	<p>
+		<strong>Instructor: </strong> <%= course.instructor %>
+	</p>
+	<p>
+		<%= course.description %>
+	</p>
+	<ul class="alt">
+	  <% course.lessons.forEach(function(lesson) { %>
+			<li><%= lesson.lesson_title %></li>
+		<% }); %>
+	</ul>
+
+	<% if (currentUser) { %>
+		<% if (currentUser.type == 'instructor' && course.instructor == currentUser.username) { %>
+			<a class="button" href="/instructors/<%= course._id %>/createLesson">
+				Add Lesson
+			</a>
+			<% } else if (currentUser.type == 'student' && !course.students.some(function(student) { return student.student_username == currentUser.username})) { %>
+			  <form id="classRegForm" method="post" action="/<%= currentUser.type %>s/course/register">
+					<input type="hidden" name="student_username" value="<%= currentUser.username %>">
+					<input type="hidden" name="course_id" value="<%= course._id %>">
+					<input type="hidden" name="course_title" value="<%= course.title %>">
+					<input type="submit" class="button" value="Register For This Class">
+				</form>
+			<% } %>
+	<% } else { %>
+	  <p>You must be logged in to register for this class</p>
+	<% } %>
+</div> -->
+
+
+
+
+
+
+
+
+
+<%- include('../partials/footer') %>

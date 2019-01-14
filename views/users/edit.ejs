@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+<a class="back-to" href="/users/<%= currentUser.username %>">Back to Profile</a>
+<div class="padded-container">
+	<h2 class="h3 mb-3 font-weight-normal">Edit your profile</h2>
+
+	<form method="get" action="/">
+		<label for="title">First Name</label>
+		<input type="text" name="title" class="form-control">
+		<br />
+		<label for="description">Last Name</label>
+		<input type="text" name="title" class="form-control">
+		<br />
+    <label for="description">Email</label>
+		<input type="text" name="title" class="form-control">
+		<br />
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Update Profile">
+	</form>
+</div>
+
+
+<%- include('../partials/footer') %>

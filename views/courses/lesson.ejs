@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+
+<div class="container-dashboard">
+  <h2><%= lesson.lesson_title %></h2>
+  <a class="btn btn-primary my-2" href="/courses/<%= course._id %>/details">Back to course</a>
+</div>
+
+<div class="padded-container">
+  <%= lesson.lesson_body %>
+</div>
+
+
+<%- include('../partials/footer') %>

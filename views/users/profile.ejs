@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<div class="container-courseDetails">
+  <img class="card-img-top image-courseDetails" src="/images/user-noimage.jpg" alt="Course image">
+  <div class="one-info">
+    <h1><%= fullUser.first_name %>'s profile</h1>
+    <h2><%= currentUser.type %></h2>
+    <p><strong>Joined on:</strong> <%= fullUser._id.getTimestamp() %></p>
+    <a href="/users/<%= fullUser.username %>/edit" class="btn btn-lg btn-primary title-right">Edit your profile</a>
+  </div>
+</div>
+<div class="padded-container">
+  <p class="list-group-item"><strong>Username: </strong> <%= fullUser.username %></p>
+  <p class="list-group-item"><strong>First name: </strong> <%= fullUser.first_name %></p>
+  <p class="list-group-item"><strong>Last name: </strong> <%= fullUser.last_name %></p>
+  <p class="list-group-item"><strong>Email address: </strong> <%= fullUser.email %></p>
+  <p class="list-group-item"><strong>Registered courses: </strong>
+    <% fullUser.courses.forEach(function(course) { %>
+      <a style="margin-right:20px" href="/courses/<%= course.course_id %>/details"><%= course.course_title %></a>
+    <% }); %>
+  </p>
+</div>
+
+
+<%- include('../partials/footer') %>

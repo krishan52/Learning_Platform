@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+
+<form action="/users/login" method="post" class="form-signin">
+  <img class="mb-4 logo-login" src="/images/logo.jpg" alt="ELEARN">
+  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <!-- <label for="inputEmail" class="sr-only">Username</label> -->
+  <input name="username" type="text" class="form-control" placeholder="Username" required>
+  <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+  <input name="password" type="password" class="form-control" placeholder="Password" required>
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+  <p>Don't have an accout yet? <a href="/users/signup">Sign up</a></p>
+</form>
+
+
+
+
+<!-- <h1>Log in</h1>
+<form action="/users/login" method="post">
+  <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+  <input name="password" type="password" class="form-control" placeholder="Password" required>
+  <input type="submit" value="Log in" class="btn btn-primary btn-block">
+</form> -->
+
+<%- include('../partials/footer') %>

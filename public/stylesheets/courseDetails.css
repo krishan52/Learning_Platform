@@ -1,0 +1,44 @@
+.main-courseDetails {
+  height: 100%;
+}
+
+.container-one {
+  background-color: grey;
+  height: 300px;
+  padding: 30px 80px;
+
+  display: flex;
+}
+
+.one-info {
+  padding: 0 40px;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.h2-courseDetails {
+  display: inline-block;
+}
+
+/* .title-right {
+  float: right;
+  font-size: 1em;
+
+} */
+
+/* .title-line {
+  height: 100px;
+  margin-top: 10px;
+} */
+
+.image-courseDetails {
+  /* height: 100%; */
+  max-width: 400px;
+  border-radius: 0;
+}
+
+/* .container {
+  width: 100%;
+} */
