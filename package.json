@@ -1,6 +1,5 @@
 {
   "name": "e-learn",
-  "private": true,
   "scripts": {
     "start": "node app"
   },
