@@ -19,6 +19,14 @@ This code (when required) can be placed before or after the Passport middleware;
 (in app.js!!)
 */
 
+/*
+serializeUser saves the user id into session:
+req.session.passport.user = {id: user._id}
+
+deserializeUser finds the user by id and attaches the user object to the request as req.user
+req.user = user
+*/
+
 var passport = require("passport");
 var User = require("./models/user");
 
@@ -60,7 +68,6 @@ If the password matches, return the current user. If it doesn’t, return “Inv
 */
 
 passport.use("login", new LocalStrategy(function(username, password, done) {
-  console.log('INSIDE LOCAL STRATEGY -- ', username, password);
   User.findOne({ username: username }, function(err, user) {
     if (err) { return done(err); }
     if (!user) {

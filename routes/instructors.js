@@ -33,7 +33,7 @@ router.post('/createCourse', ensureAuthenticated, [
 
   if(!errors.isEmpty()){
     errors.array().forEach(function(error) {
-      req.flash('danger', error.msg);
+      req.flash('error', error.msg);
     });
     res.redirect('/instructors/createCourse');
     return;
@@ -67,7 +67,7 @@ router.post('/:courseId/createLesson', ensureAuthenticated, [
 
   if(!errors.isEmpty()){
     errors.array().forEach(function(error) {
-      req.flash('danger', error.msg);
+      req.flash('error', error.msg);
     });
     res.redirect(`/instructors/${info['courseId']}/createLesson`);
     return;
@@ -102,7 +102,7 @@ router.post('/modifyCourse/:courseId', [
 
   if(!errors.isEmpty()){
     errors.array().forEach(function(error) {
-      req.flash('danger', error.msg);
+      req.flash('error', error.msg);
     });
     res.redirect(`/instructors/modifyCourse/${info['courseId']}`);
     return;

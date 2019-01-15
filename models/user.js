@@ -23,8 +23,15 @@ userSchema.methods.findUserByUsername = function(username, callback){
 	User.findOne(query, callback);
 }
 
+// here i might use bcryptjs, check for errors and return a promise
+userSchema.methods.checkPassword = function(plainPassword, callback) {
+  bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
+    if (err) throw err;
+    callback(err, isMatch);
+  });
+};
 
-/* MISS SAVESTUDENT AND SAVEINSTRUCTOR */
+
 // Create Student User
 userSchema.statics.saveStudent = function(newUser, newStudent, callback) {
 	//async.parallel([newUser.save, newStudent.save], callback); // instead i do as BELOW
@@ -53,15 +60,23 @@ userSchema.statics.saveInstructor = function(newUser, newInstructor, callback){
 	});
 }
 
+userSchema.statics.updateStudent = function(user, doc, callback) {
+  // if (user.email) {
+  //   user.update({
+  //     $set: {
+  //       email: user.email
+  //     }
+  //   });
+  // }
+  // Student.findOneAndUpdate({username: user.username}, {$set: doc}, callback);
+  callback();
+}
+
+userSchema.statics.updateInstructor = function(user, doc, callback) {
+  callback();
+}
 
 
-// here i might use bcryptjs, check for errors and return a promise
-userSchema.methods.checkPassword = function(plainPassword, callback) {
-  bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
-    if (err) throw err;
-    callback(err, isMatch);
-  });
-};
 
 
 

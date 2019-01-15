@@ -9,7 +9,6 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const expressValidator = require('express-validator');
 const flash = require("connect-flash");
-const messages = require('express-messages');
 const passport = require("passport");
 
 // single funtion that will set up passport stuff
@@ -52,9 +51,8 @@ app.use(passport.session());
 
 app.use(flash());
 app.use(function (req, res, next) {
-  res.locals.dangerMessages = req.flash('danger');
-  res.locals.successMessages = req.flash('success');
-  console.log('FLASH MIDDLEWARE!!', res.locals.dangerMessages);
+  res.locals.errorMessages = req.flash('error');
+  res.locals.infoMessages = req.flash('info');
   next();
 });
 
@@ -72,7 +70,8 @@ app.use(function(req, res, next) {
 // for test, TO DELETE
 app.use((req, res, next) => {
   console.log('***REQ.COOKIES: ', req.cookies);
-  console.log('***REQ:BODY: ', req.body);
+  console.log('***REQ.BODY: ', req.body);
+  console.log('***REQ.SESSION: ', req.session);
   next();
 });
 

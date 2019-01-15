@@ -49,7 +49,7 @@ router.post("/signup", [
 
   if(!errors.isEmpty()){
     errors.array().forEach(function(error) {
-      req.flash('danger', error.msg);
+      req.flash('error', error.msg);
     });
     res.redirect('/users/signup');
     return;
@@ -60,7 +60,7 @@ router.post("/signup", [
     if (err) { return next(err); }
     // If you find a user, you should bail out because that username already exists.
     if (user) {
-      req.flash('danger', 'User already exists');
+      req.flash('error', 'User already exists');
       res.redirect('/users/signup');
       return;
     }
@@ -88,7 +88,7 @@ router.post("/signup", [
           throw err;
         }
         console.log('Student created');
-        req.flash('success', 'User Added');
+        req.flash('info', 'User Added');
         next();
       });
     } else {
@@ -102,7 +102,7 @@ router.post("/signup", [
 
       User.saveInstructor(newUser, newInstructor, function(err, user){
         console.log('Instructor created');
-        req.flash('success', 'User Added');
+        req.flash('info', 'User Added');
         next();
       });
     }
@@ -135,7 +135,7 @@ router.post("/login", passport.authenticate("login", {
 router.get("/logout", function(req, res) {
   // function added to req by passport
   req.logout();
-  req.flash("success", "You've been logged out");
+  req.flash("info", "You've been logged out");
   res.redirect("/");
 });
 
@@ -164,6 +164,15 @@ router.get("/:username/edit", ensureAuthenticated, function(req, res, next) {
   });
 });
 
+router.post('/:username/edit', ensureAuthenticated, function(req, res) {
+  var username = req.body.username;
+  var first_name = req.body.first_name;
+	var last_name = req.body.last_name;
+	var email = req.body.email;
+
+  req.flash("error", "Error while updating the profile. You might try again later.");
+  res.redirect(`/users/${username}/edit`);
+});
 
 
 

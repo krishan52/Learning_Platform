@@ -57,12 +57,11 @@
         </ul>
       </div>
     </nav>
-
     <!-- flash messages -->
     <ul class="messages">
-      <% if (dangerMessages) { dangerMessages.forEach(function(message) { %>
-        <li class="alert alert-danger"><%= message %></li>
-      <% });} else if (successMessages) { dangerMessages.forEach(function(message) { %>
-        <li class="alert alert-success"><%= message %></li>
+      <% if (errorMessages) { errorMessages.forEach(function(message) { %>
+        <li class="alert alert-warning"><%= message %></li>
+      <% });} if (infoMessages) { infoMessages.forEach(function(message) { %>
+        <li class="alert alert-info"><%= message %></li>
       <% });} %>
     </ul>
