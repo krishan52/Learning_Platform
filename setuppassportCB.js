@@ -68,33 +68,21 @@ If the password matches, return the current user. If it doesn’t, return “Inv
 */
 
 passport.use("login", new LocalStrategy(function(username, password, done) {
-  // User.findOne({ username: username }, function(err, user) {
-  //   if (err) { return done(err); }
-  //   if (!user) {
-  //     return done(null, false, { message: "No user has that username!" });
-  //   }
-  //   user.checkPassword(password, function(err, isMatch) {
-  //     if (err) { return done(err); }
-  //     if (isMatch) {
-  //       return done(null, user);
-  //     } else {
-  //       return done(null, false, { message: "Invalid password." });
-  //     }
-  //   });
-  // });
-  User.findOne({username: username}).then((user) => {
+  User.findOne({ username: username }, function(err, user) {
+    if (err) { return done(err); }
     if (!user) {
-      return done(null, false, { message: "No user has that username!" }); // qui l'uso di return??
+      return done(null, false, { message: "No user has that username!" });
     }
-    user.checkPassword(password).then((isMatch) => {
+    user.checkPassword(password, function(err, isMatch) {
+      if (err) { return done(err); }
       if (isMatch) {
         return done(null, user);
+      } else {
+        return done(null, false, { message: "Invalid password." });
       }
-      done(null, false, { message: "Invalid password." });
-    }).catch((err) => {
-      return done(err);
     });
   });
+
 }));
 
 /*

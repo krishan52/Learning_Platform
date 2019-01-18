@@ -21,9 +21,12 @@ var InstructorSchema = mongoose.Schema({
 	}]
 });
 
-InstructorSchema.statics.findInstructorByUsername = function(username, callback) {
-	var query = {username: username};
-	Instructor.findOne(query, callback);
+// InstructorSchema.statics.findInstructorByUsername = function(username, callback) {
+// 	var query = {username: username};
+// 	Instructor.findOne(query, callback);
+// }
+InstructorSchema.statics.findInstructorByUsername = (username) => {
+	return Instructor.findOne({username: username});
 }
 
 // // Register Instructor for Class // MIGHT NO NEED THIS!!!!
@@ -41,7 +44,29 @@ InstructorSchema.statics.findInstructorByUsername = function(username, callback)
 //     );
 // }
 
-InstructorSchema.statics.createCourse = function(info, callback) {
+// InstructorSchema.statics.createCourse = function(info, callback) {
+// 	title = info['title'];
+// 	description = info['description'];
+// 	username = info['username'];
+//
+// 	var course = new Course({
+// 		title,
+// 		description,
+// 		instructor: username
+// 	});
+//
+// 	course.save(function(err, course) {
+// 		if (err) throw err;
+// 		var query = {username: username};
+// 		Instructor.findOneAndUpdate(
+// 			query,
+// 			{$push: {"courses": {course_id: course._id, course_title: title}}},
+// 			{safe: true, upsert: true},
+// 			callback
+// 		);
+// 	});
+// }
+InstructorSchema.statics.createCourse = (info) => {
 	title = info['title'];
 	description = info['description'];
 	username = info['username'];
@@ -52,24 +77,23 @@ InstructorSchema.statics.createCourse = function(info, callback) {
 		instructor: username
 	});
 
-	course.save(function(err, course) {
-		if (err) throw err;
-		var query = {username: username};
-		Instructor.findOneAndUpdate(
-			query,
+	return course.save().then((course) => {
+		return Instructor.findOneAndUpdate({username: username},
 			{$push: {"courses": {course_id: course._id, course_title: title}}},
-			{safe: true, upsert: true},
-			callback
+			{safe: true, upsert: true}
 		);
 	});
-}
+};
 
-InstructorSchema.statics.findCourses = function(user, callback) {
-	console.log(user);
-	Course.find({instructor: user.username}, function(err, courses) {
-		if (err) throw err;
-		callback(null, courses);
-	});
+// InstructorSchema.statics.findCourses = function(user, callback) {
+// 	console.log(user);
+// 	Course.find({instructor: user.username}, function(err, courses) {
+// 		if (err) throw err;
+// 		callback(null, courses);
+// 	});
+// }
+InstructorSchema.statics.findCourses = (user) => {
+	return Course.find({instructor: user.username});
 }
 
 var Instructor = module.exports = mongoose.model('instructor', InstructorSchema);

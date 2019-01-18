@@ -56,7 +56,8 @@ router.post("/signup", [
 	}
 
   // Calls findOne to return just one user. You want a match on usernames here.
-  User.findOne({ username: username }).then((user) => {
+  User.findOne({ username: username }, function(err, user) {
+    if (err) { return next(err); }
     // If you find a user, you should bail out because that username already exists.
     if (user) {
       req.flash('error', 'User already exists');
@@ -81,7 +82,11 @@ router.post("/signup", [
         username:username
       });
 
-      User.saveStudent(newUser, newStudent).then((user) => {
+      User.saveStudent(newUser, newStudent, function(err, user){
+        if (err) {
+          console.log(err);
+          throw err;
+        }
         console.log('Student created');
         req.flash('info', 'User Added');
         next();
@@ -95,13 +100,13 @@ router.post("/signup", [
         username: username
       });
 
-      User.saveInstructor(newUser, newInstructor).then((user) => {
+      User.saveInstructor(newUser, newInstructor, function(err, user){
         console.log('Instructor created');
         req.flash('info', 'User Added');
         next();
       });
     }
-  }).catch(next);
+  });
 },
 // after signup, do login
 passport.authenticate('login', {
@@ -134,50 +139,29 @@ router.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
-// GET user profile
-// router.get("/:username", ensureAuthenticated, function(req, res, next) {
-//   User.findOne({ username: req.params.username }, function(err, user) {
-//     if (err) { return next(err); }
-//     if (!user) { return next(404); }
-//     if (user.type == 'student') {
-//       Student.findStudentByUsername(user.username, function(err, student) {
-//         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: student });
-//       });
-//     } else {
-//       Instructor.findInstructorByUsername(user.username, function(err, instructor) {
-//         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: instructor });
-//       });
-//     }
-//   });
-// });
-router.get("/:username", ensureAuthenticated, (req, res, next) => {
-  User.findOne({ username: req.params.username }).then((user) => {
+// GET users/:username
+router.get("/:username", ensureAuthenticated, function(req, res, next) {
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) { return next(err); }
     if (!user) { return next(404); }
     if (user.type == 'student') {
-      Student.findStudentByUsername(user.username).then((student) => {
+      Student.findStudentByUsername(user.username, function(err, student) {
         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: student });
       });
     } else {
-      Instructor.findInstructorByUsername(user.username).then((instructor) => {
+      Instructor.findInstructorByUsername(user.username, function(err, instructor) {
         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: instructor });
       });
     }
-  }).catch(next);
+  });
 });
 
-// GET profile edit page
-// router.get("/:username/edit", ensureAuthenticated, function(req, res, next) {
-//   User.findOne({ username: req.params.username }, function(err, user) {
-//     if (err) { return next(err); }
-//     if (!user) { return next(404); }
-//     res.render("users/edit", { title: 'ELEARN | Edit Profile', user: user });
-//   });
-// });
-router.get("/:username/edit", ensureAuthenticated, (req, res, next) => {
-  User.findOne({ username: req.params.username }).then((user) => {
+router.get("/:username/edit", ensureAuthenticated, function(req, res, next) {
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) { return next(err); }
     if (!user) { return next(404); }
     res.render("users/edit", { title: 'ELEARN | Edit Profile', user: user });
-  }).catch(next);
+  });
 });
 
 router.post('/:username/edit', ensureAuthenticated, function(req, res) {

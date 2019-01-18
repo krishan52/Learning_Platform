@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const express = require("express");
 const mongoose = require("mongoose");
 // Connects to your MongoDB server in the test database
@@ -67,13 +68,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-// for test, TO DELETE
-app.use((req, res, next) => {
-  console.log('***REQ.COOKIES: ', req.cookies);
-  console.log('***REQ.BODY: ', req.body);
-  console.log('***REQ.SESSION: ', req.session);
-  next();
-});
+// // for test, TO DELETE
+// app.use((req, res, next) => {
+//   console.log('***REQ.COOKIES: ', req.cookies);
+//   console.log('***REQ.BODY: ', req.body);
+//   console.log('***REQ.SESSION: ', req.session);
+//   next();
+// });
 
 // ROUTES
 app.use('/', indexRouter);
@@ -82,6 +83,24 @@ app.use('/students', studentsRouter);
 app.use('/instructors', instructorsRouter);
 app.use('/courses', coursesRouter);
 // app.use(routes); // delete!!!!!!!!!!!!!!!!!!!!!!!
+
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  console.log('INSIDE error handler in app.js');
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error', { title: 'ELEARN | Error!' });
+});
 
 app.listen(app.get("port"), function() {
   console.log("Server started on port " + app.get("port"));
