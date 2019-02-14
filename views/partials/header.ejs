@@ -1,67 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <title><%= title %></title>
 
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>E-LEARN | <%= title %></title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/"><img id="logo" src="/images/logo.jpg" alt="ELEARN"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <!-- Favicons -->
+  <link href="/img/favicon-pencil.ico" rel="icon">
+  <!-- <link href="img/apple-touch-icon.png" rel="apple-touch-icon"> -->
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/courses/all">All Courses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-        </ul>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
 
-        <ul class="navbar-nav ml-auto">
-          <% if (currentUser) { %>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="/<%= currentUser.type %>s/dashboard">
-                Hello, <%= currentUser.username %>
-              </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="/users/logout">Log out</a></li> -->
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Hello, <%= currentUser.username %>
-              </button>
+  <!-- Bootstrap CSS File -->
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/lib/venobox/venobox.css" rel="stylesheet">
+  <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: TheEvent
+    Theme URL: https://bootstrapmade.com/theevent-conference-event-bootstrap-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+
+	<!--==========================
+    Header
+  ============================-->
+  <!-- <header id="header" class="<%= (title != 'Home') ? 'header-scrolled' : ''  %>"> -->
+	<header id="header" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <!-- Uncomment below if you prefer to use a text logo -->
+        <h1><a href="/"><i class="fa fa-pencil fa-logo"></i><span>E-</span>LEARN</a></h1>
+				<!-- <h1><a href="/"><span><i class="fa fa-pencil fa-logo"></i></span>E-<span>LEARN</span></a></h1> -->
+        <!-- <a href="#intro" class="scrollto"><img src="img/logo.png" alt="" title=""></a> -->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+					<li class="<%= (title == 'Home') ? 'menu-active' : ''  %>"><a href="/">Home</a></li>
+          <li class="<%= (title == 'All Courses') ? 'menu-active' : ''  %>"><a href="/courses/all">All Courses</a></li>
+          <li class="<%= (title == 'About') ? 'menu-active' : ''  %>"><a href="/about">About</a></li>
+					<% if (currentUser) { %>
+							<button class="auth-buttons dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown">Hello, <%= currentUser.username %></button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                 <a class="dropdown-item" href="/<%= currentUser.type %>s/dashboard">Your Dashboard</a>
                 <a class="dropdown-item" href="/users/<%= currentUser.username %>">Your Profile</a>
                 <a class="dropdown-item" href="/users/logout">Log out</a>
               </div>
-            </div>
+
           <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/signup">Sign up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/login">Log in</a>
-            </li>
+						<span><a class="auth-buttons" href="/users/signup">Sign up</a></span>
+						<span><a class="auth-buttons" href="/users/login">Log in</a></span>
           <% } %>
         </ul>
-      </div>
-    </nav>
+      </nav><!-- #nav-menu-container -->
+    </div>
+
     <!-- flash messages -->
-    <ul class="messages">
-      <% if (errorMessages) { errorMessages.forEach(function(message) { %>
-        <li class="alert alert-warning"><%= message %></li>
-      <% });} if (infoMessages) { infoMessages.forEach(function(message) { %>
-        <li class="alert alert-info"><%= message %></li>
-      <% });} %>
-    </ul>
+    <div class="messages-container">
+      <ul class="messages">
+        <% if (errorMessages) { errorMessages.forEach(function(message) { %>
+          <li class="alert alert-warning"><%= message %></li>
+        <% });} if (infoMessages) { infoMessages.forEach(function(message) { %>
+          <li class="alert alert-info"><%= message %></li>
+        <% });} %>
+      </ul>
+    </div>
+
+  </header><!-- #header -->

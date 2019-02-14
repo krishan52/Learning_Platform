@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Course = require('./course');
+const mongoose = require('mongoose');
+const Course = require('./course');
 
 // Student Schema
-var StudentSchema = mongoose.Schema({
+const StudentSchema = mongoose.Schema({
 	first_name: {
 		type: String
 	},
@@ -94,4 +94,6 @@ StudentSchema.statics.findStudentCourses = (user) => {
 }
 
 
-var Student = module.exports = mongoose.model('Student', StudentSchema);
+var Student = mongoose.model('Student', StudentSchema);
+
+module.exports = Student;

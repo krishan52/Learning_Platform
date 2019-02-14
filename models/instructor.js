@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Course = require('./course');
+const mongoose = require('mongoose');
+const Course = require('./course');
 
 // Instrucor Schema
-var InstructorSchema = mongoose.Schema({
+const InstructorSchema = mongoose.Schema({
 	first_name: {
 		type: String
 	},
@@ -67,12 +67,14 @@ InstructorSchema.statics.findInstructorByUsername = (username) => {
 // 	});
 // }
 InstructorSchema.statics.createCourse = (info) => {
-	title = info['title'];
-	description = info['description'];
-	username = info['username'];
+	const title = info['title'];
+	const topic = info['topic'];
+	const description = info['description'];
+	const username = info['username'];
 
 	var course = new Course({
 		title,
+		topic,
 		description,
 		instructor: username
 	});
@@ -96,4 +98,6 @@ InstructorSchema.statics.findCourses = (user) => {
 	return Course.find({instructor: user.username});
 }
 
-var Instructor = module.exports = mongoose.model('instructor', InstructorSchema);
+var Instructor = mongoose.model('instructor', InstructorSchema);
+
+module.exports = Instructor;

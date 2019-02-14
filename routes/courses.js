@@ -1,6 +1,6 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
-var Course = require('./../models/course');
+const Course = require('./../models/course');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 
 // GET course details
@@ -48,7 +48,7 @@ router.get('/:courseId/lessons/:lesson_id', ensureAuthenticated, (req, res, next
 // });
 router.get('/all', (req, res, next) => {
   Course.findCourses().then((courses) => {
-    res.render('courses/all', { title: 'ELEARN | All Courses', courses: courses });
+    res.render('courses/all', { title: 'All Courses', courses: courses });
   }).catch(next);
 });
 

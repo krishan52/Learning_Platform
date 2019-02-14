@@ -10,12 +10,17 @@ const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 // });
 router.get("/", (req, res, next) => {
   Course.findCourses().then((courses) => {
-    res.render('index', { title: 'ELEARN | Home', courses: courses });
+    res.render('index', { title: 'Home', courses: courses });
   }).catch(next);
 });
 
 router.get("/dashboard", ensureAuthenticated, function(req, res) {
   res.redirect(`${req.user.type}s/dashboard`);
 });
+
+router.get("/about", function(req, res) {
+  res.render('about', {title: 'About'});
+});
+
 
 module.exports = router;

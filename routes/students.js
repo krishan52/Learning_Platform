@@ -1,8 +1,8 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
-var Course = require('./../models/course.js');
-var Student = require('./../models/student');
-var User = require('./../models/instructor');
+const Course = require('./../models/course.js');
+const Student = require('./../models/student');
+const User = require('./../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 
 // router.get('/dashboard', ensureAuthenticated, function(req, res,) {

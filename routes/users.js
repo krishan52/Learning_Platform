@@ -11,10 +11,8 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("./../models/user");
-// Include Student Model
-var Student = require('../models/student');
-// Include Instructor Model
-var Instructor = require('../models/instructor');
+const Student = require('../models/student');
+const Instructor = require('../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 const { check, validationResult } = require('express-validator/check');
 
@@ -36,15 +34,14 @@ router.post("/signup", [
   check('password2').custom((value, {req}) => {return value == req.body.password;}).withMessage('Passwords do not match')
 ], function(req, res, next) {
   // Get Form Values
-	var first_name = req.body.first_name;
-	var last_name = req.body.last_name;
-	var email = req.body.email;
-	var username = req.body.username;
-	var password = req.body.password;
-	var password2 = req.body.password2;
-	var type = req.body.type;
+	const first_name = req.body.first_name;
+	const last_name = req.body.last_name;
+	const email = req.body.email;
+	const username = req.body.username;
+	const password = req.body.password;
+	const password2 = req.body.password2;
+	const type = req.body.type;
 
-	// errors = req.validationErrors();
   const errors = validationResult(req);
 
   if(!errors.isEmpty()){
@@ -55,16 +52,16 @@ router.post("/signup", [
     return;
 	}
 
-  // Calls findOne to return just one user. You want a match on usernames here.
+  // Calls findOne to return just one user. match the username.
   User.findOne({ username: username }).then((user) => {
-    // If you find a user, you should bail out because that username already exists.
+    // If user, bail out.
     if (user) {
       req.flash('error', 'User already exists');
       res.redirect('/users/signup');
       return;
     }
-    // Creates a new instance of the User model with the username and password and type
-    var newUser = new User({
+    // Creates a new instance of the User model with username, password, type
+    const newUser = new User({
       email: email,
       username:username,
       password: password,
@@ -74,7 +71,7 @@ router.post("/signup", [
     if(type == 'student'){
       console.log('Registering Student...');
 
-      var newStudent = new Student({
+      const newStudent = new Student({
         first_name: first_name,
         last_name: last_name,
         email: email,
@@ -88,7 +85,7 @@ router.post("/signup", [
       });
     } else {
       console.log('Registering Instructor...');
-      var newInstructor = new Instructor({
+      const newInstructor = new Instructor({
         first_name: first_name,
         last_name: last_name,
         email: email,
@@ -117,8 +114,7 @@ router.get("/login", function(req, res) {
 });
 
 // POST login
-// passport.authenticate returns a request handler function that you pass instead one you write yourself.
-// This lets you redirect to the right spot, depending on whether the user successfully logged in.
+// passport.authenticate returns a request handler function
 router.post("/login", passport.authenticate("login", {
   successRedirect: "/dashboard",
   failureRedirect: "/users/login",
@@ -128,7 +124,6 @@ router.post("/login", passport.authenticate("login", {
 
 // GET logout
 router.get("/logout", function(req, res) {
-  // function added to req by passport
   req.logout();
   req.flash("info", "You've been logged out");
   res.redirect("/");
@@ -181,10 +176,10 @@ router.get("/:username/edit", ensureAuthenticated, (req, res, next) => {
 });
 
 router.post('/:username/edit', ensureAuthenticated, function(req, res) {
-  var username = req.body.username;
-  var first_name = req.body.first_name;
-	var last_name = req.body.last_name;
-	var email = req.body.email;
+  const username = req.body.username;
+  const first_name = req.body.first_name;
+	const last_name = req.body.last_name;
+	const email = req.body.email;
 
   req.flash("error", "Error while updating the profile. You might try again later.");
   res.redirect(`/users/${username}/edit`);

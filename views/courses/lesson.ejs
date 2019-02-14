@@ -1,13 +1,25 @@
 <%- include('../partials/header') %>
 
-<div class="container-dashboard">
-  <h2><%= lesson.lesson_title %></h2>
-  <a class="btn btn-primary my-2" href="/courses/<%= course._id %>/details">Back to course</a>
-</div>
+<main id="main" class="main-page">
 
-<div class="padded-container">
-  <%= lesson.lesson_body %>
-</div>
+  <!--==========================
+    Contact Section
+  ============================-->
+  <section id="contact" class="section-bg wow fadeInUp">
 
+    <div class="container">
+
+      <a href="/courses/<%= course._id %>/details">Back to course</a>
+
+      <div class="section-header">
+        <h2><%= lesson.lesson_title %></h2>
+      </div>
+
+      <%= lesson.lesson_body %>
+
+    </div>
+  </section><!-- #contact -->
+
+</main>
 
 <%- include('../partials/footer') %>

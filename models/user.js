@@ -1,9 +1,9 @@
-var mongoose = require("mongoose");
-var bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
 
-var SALT_FACTOR = 10;
+const SALT_FACTOR = 10;
 
-var userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String },
   password: { type: String, required: true },
@@ -91,11 +91,8 @@ userSchema.statics.updateStudent = (user, doc) => {
 }
 
 userSchema.statics.updateInstructor = (user, doc) => {
-
+  // update instructor profile
 }
-
-
-
 
 
 // Defines a function that runs before model is saved
@@ -119,6 +116,6 @@ userSchema.pre("save", function(next) {
   });
 });
 
-var User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

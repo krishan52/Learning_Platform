@@ -1,9 +1,12 @@
 <%- include('partials/header') %>
 
-<div class="container">
-  <h1><%= message %></h1>
-  <h2><%= error.status %></h2>
+<main id="main" class="main-page">
+
+  <h1>There was an error :(</h1>
+  <p><%= message %></p>
+  <pre><%= error.status %></pre>
   <pre><%= error.stack %></pre>
-</div>
+
+</main>
 
 <%- include('partials/footer') %>

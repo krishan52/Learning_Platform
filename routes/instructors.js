@@ -1,8 +1,8 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
-var Course = require('./../models/course.js');
-var Instructor = require('./../models/instructor');
-var User = require('./../models/instructor');
+const Course = require('./../models/course.js');
+const Instructor = require('./../models/instructor');
+const User = require('./../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 const { check, validationResult } = require('express-validator/check');
 
@@ -16,7 +16,6 @@ const { check, validationResult } = require('express-validator/check');
 // });
 router.get('/dashboard', ensureAuthenticated, (req, res, next) => {
   // find instructor courses
-  console.log('instr get dashboard', req.user)
   Instructor.findCourses(req.user).then((courses) => {
     res.render('instructors/dashboard', {title: 'ELEARN | Dashboard', courses: courses});
   }).catch(next);
@@ -28,11 +27,13 @@ router.get('/createCourse', ensureAuthenticated, (req, res) => {
 
 router.post('/createCourse', ensureAuthenticated, [
   check('title').trim().not().isEmpty().withMessage('Title cannot be empty'),
+  check('topic').trim().not().isEmpty().withMessage('Topic cannot be empty'),
   check('description').trim().not().isEmpty().withMessage('Description cannot be empty')
 ], (req, res, next) => {
   // Get Form Values
   var info = [];
 	info['title'] = req.body.title;
+  info['topic'] = req.body.topic;
   info['description'] = req.body.description;
   info['username'] = req.user.username;
 
@@ -95,7 +96,8 @@ router.post('/:courseId/createLesson', ensureAuthenticated, [
   Course.addLesson(info).then((course) => {
     console.log('Lesson Added', 'course obj follows. NEEDED?', course);
     req.flash('info','Lesson ' + info['lesson_number'] + ' Added.');
-    res.redirect('/instructors/dashboard');
+    // res.redirect('/instructors/dashboard');
+    res.redirect(`/courses/${info['courseId']}/details`);
   }).catch(next);
 });
 
@@ -143,7 +145,6 @@ router.post('/modifyCourse/:courseId', [
     res.redirect('/instructors/dashboard');
   }).catch(next);
 });
-
 
 
 module.exports = router;
