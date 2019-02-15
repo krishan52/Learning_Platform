@@ -5,32 +5,14 @@ const Student = require('./../models/student');
 const User = require('./../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 
-// router.get('/dashboard', ensureAuthenticated, function(req, res,) {
-//   Student.findStudentCourses(req.user, function(err, courses) {
-//     if (err) throw err;
-//     res.render('students/dashboard', {title: 'ELEARN | Dashboard', courses: courses});
-//   });
-// });
+// GET student dashboard
 router.get('/dashboard', ensureAuthenticated, function(req, res, next) {
   Student.findStudentCourses(req.user).then((courses) => {
     res.render('students/dashboard', {title: 'ELEARN | Dashboard', courses: courses});
   }).catch(next);
 });
 
-// router.post('/course/register', ensureAuthenticated, function(req, res) {
-// 	info = [];
-// 	info['student_username'] = req.body.student_username;
-// 	info['course_id'] = req.body.course_id;
-// 	info['course_title'] = req.body.course_title;
-//
-// 	Student.register(info, function(err, student){
-// 		if(err) throw err;
-// 		console.log(student);
-// 	});
-//
-// 	req.flash('info', 'You are now registered for the course.');
-// 	res.redirect('/students/dashboard');
-// });
+// Register student for a course 
 router.post('/course/register', ensureAuthenticated, function(req, res, next) {
 	info = [];
 	info['student_username'] = req.body.student_username;
@@ -44,14 +26,7 @@ router.post('/course/register', ensureAuthenticated, function(req, res, next) {
   }).catch(next);
 });
 
-// QUANDO UTILIZZO STA ROUTE???????????????? /students/courseID/viewLessons
-// router.get('/:courseId/viewLessons', ensureAuthenticated, function(req, res) {
-//   var courseId = req.params.courseId;
-//
-//   Course.findCourseById(courseId, function(err, course) {
-//     res.render('students/viewLessons', {title: 'ELEARN | Lessons', course: course});
-//   });
-// });
+// View a lesson
 router.get('/:courseId/viewLessons', ensureAuthenticated, function(req, res, next) {
   var courseId = req.params.courseId;
 

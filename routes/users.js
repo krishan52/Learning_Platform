@@ -15,12 +15,12 @@ const Instructor = require('../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 const { check, validationResult } = require('express-validator/check');
 
-// GET signup
+// GET signup page
 router.get("/signup", function(req, res) {
   res.render("users/signup", {title: 'ELEARN | Sign up'});
 });
 
-// POST signup + login
+// POST signup and do login
 router.post("/signup", [
   // Form Validation
 	check('first_name', 'First name field is required').not().isEmpty(),
@@ -107,7 +107,7 @@ passport.authenticate('login', {
   failureFlash: true
 }));
 
-// GET login
+// GET login page
 router.get("/login", function(req, res) {
   res.render("users/login", {title: 'ELEARN | Login'});
 });
@@ -129,21 +129,6 @@ router.get("/logout", function(req, res) {
 });
 
 // GET user profile
-// router.get("/:username", ensureAuthenticated, function(req, res, next) {
-//   User.findOne({ username: req.params.username }, function(err, user) {
-//     if (err) { return next(err); }
-//     if (!user) { return next(404); }
-//     if (user.type == 'student') {
-//       Student.findStudentByUsername(user.username, function(err, student) {
-//         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: student });
-//       });
-//     } else {
-//       Instructor.findInstructorByUsername(user.username, function(err, instructor) {
-//         res.render("users/profile", { title: 'ELEARN | Profile', fullUser: instructor });
-//       });
-//     }
-//   });
-// });
 router.get("/:username", ensureAuthenticated, (req, res, next) => {
   User.findOne({ username: req.params.username }).then((user) => {
     if (!user) { return next(404); }
@@ -160,13 +145,6 @@ router.get("/:username", ensureAuthenticated, (req, res, next) => {
 });
 
 // GET profile edit page
-// router.get("/:username/edit", ensureAuthenticated, function(req, res, next) {
-//   User.findOne({ username: req.params.username }, function(err, user) {
-//     if (err) { return next(err); }
-//     if (!user) { return next(404); }
-//     res.render("users/edit", { title: 'ELEARN | Edit Profile', user: user });
-//   });
-// });
 router.get("/:username/edit", ensureAuthenticated, (req, res, next) => {
   User.findOne({ username: req.params.username }).then((user) => {
     if (!user) { return next(404); }
@@ -174,6 +152,7 @@ router.get("/:username/edit", ensureAuthenticated, (req, res, next) => {
   }).catch(next);
 });
 
+// Modify profile
 router.post('/:username/edit', ensureAuthenticated, function(req, res) {
   const username = req.body.username;
   const first_name = req.body.first_name;
@@ -183,7 +162,6 @@ router.post('/:username/edit', ensureAuthenticated, function(req, res) {
   req.flash("error", "Error while updating the profile. You might try again later.");
   res.redirect(`/users/${username}/edit`);
 });
-
 
 
 module.exports = router;

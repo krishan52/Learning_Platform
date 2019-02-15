@@ -6,14 +6,7 @@ const User = require('./../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
 const { check, validationResult } = require('express-validator/check');
 
-// router.get('/dashboard', ensureAuthenticated, function(req, res) {
-//   // find instructor courses
-//   console.log('instr get dashboard', req.user)
-//   Instructor.findCourses(req.user, function(err, courses) {
-//     if (err) throw err;
-//     res.render('instructors/dashboard', {title: 'ELEARN | Dashboard', courses: courses});
-//   });
-// });
+// GET instructor dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res, next) => {
   // find instructor courses
   Instructor.findCourses(req.user).then((courses) => {
@@ -21,10 +14,12 @@ router.get('/dashboard', ensureAuthenticated, (req, res, next) => {
   }).catch(next);
 });
 
+// GET create course page
 router.get('/createCourse', ensureAuthenticated, (req, res) => {
   res.render('instructors/createCourse', {title: 'ELEARN | Create Course'});
 });
 
+// Create a new course
 router.post('/createCourse', ensureAuthenticated, [
   check('title').trim().not().isEmpty().withMessage('Title cannot be empty'),
   check('topic').trim().not().isEmpty().withMessage('Topic cannot be empty'),
@@ -47,12 +42,6 @@ router.post('/createCourse', ensureAuthenticated, [
     return;
 	}
 
-  // Instructor.createCourse(info, function(err, instructor) {
-  //   if(err) throw err;
-	// 	console.log('Course created successfully', 'instructor obj follows. NEEDED?', instructor);
-  // });
-  // req.flash('info', 'Course created successfully');
-	// res.redirect('/instructors/dashboard');
   Instructor.createCourse(info).then((instructor) => {
     console.log('Course created successfully', 'instructor obj follows. NEEDED?', instructor);
     req.flash('info', 'Course created successfully');
@@ -60,10 +49,12 @@ router.post('/createCourse', ensureAuthenticated, [
   }).catch(next);
 });
 
+// GET create lesson page
 router.get('/:courseId/createLesson', ensureAuthenticated, (req, res, next) => {
 	res.render('instructors/createLesson', {title: 'ELEARN | Create Lesson', courseId: req.params.courseId});
 });
 
+// Create a new lesson for a course
 router.post('/:courseId/createLesson', ensureAuthenticated, [
   check('lesson_number').trim().isInt().withMessage('Lesson number must be an integer'),
   check('lesson_title').trim().not().isEmpty().withMessage('Title cannot be empty'),
@@ -86,13 +77,6 @@ router.post('/:courseId/createLesson', ensureAuthenticated, [
     return;
 	}
 
-	// Course.addLesson(info, function(err, course){
-  //   if(err) throw err;
-	// 	console.log('Lesson Added', 'course obj follows. NEEDED?', course);
-	// });
-  //
-	// req.flash('info','Lesson ' + info['lesson_number'] + ' Added.');
-	// res.redirect('/instructors/dashboard');
   Course.addLesson(info).then((course) => {
     console.log('Lesson Added', 'course obj follows. NEEDED?', course);
     req.flash('info','Lesson ' + info['lesson_number'] + ' Added.');
@@ -101,12 +85,7 @@ router.post('/:courseId/createLesson', ensureAuthenticated, [
   }).catch(next);
 });
 
-// router.get('/modifyCourse/:courseId', ensureAuthenticated, function(req, res) {
-//   var courseId = req.params.courseId;
-//   Course.findCourseById(courseId, function(err, course) {
-//     res.render('instructors/modifyCourse', { title: 'ELEARN | Modify Course', course: course });
-//   });
-// });
+// GET modify course page
 router.get('/modifyCourse/:courseId', ensureAuthenticated, (req, res, next) => {
   var courseId = req.params.courseId;
   Course.findCourseById(courseId).then((course) => {
@@ -114,6 +93,7 @@ router.get('/modifyCourse/:courseId', ensureAuthenticated, (req, res, next) => {
   }).catch(next);
 });
 
+// Modify course
 router.post('/modifyCourse/:courseId', [
   check('title').trim().not().isEmpty().withMessage('Title cannot be empty'),
   check('description').trim().not().isEmpty().withMessage('Description cannot be empty')
@@ -133,12 +113,6 @@ router.post('/modifyCourse/:courseId', [
     return;
 	}
 
-  // Course.modifyCourse(info, function(err, course) {
-  //   if(err) throw err;
-  //   console.log('course modified.');
-  // });
-  // req.flash('info', 'Course successfully modified');
-	// res.redirect('/instructors/dashboard');
   Course.modifyCourse(info).then((course) => {
     console.log('Course modified.');
     req.flash('info', 'Course successfully modified');
