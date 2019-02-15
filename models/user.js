@@ -80,14 +80,7 @@ userSchema.statics.saveInstructor = (newUser, newInstructor) => {
 }
 
 userSchema.statics.updateStudent = (user, doc) => {
-  // if (user.email) {
-  //   user.update({
-  //     $set: {
-  //       email: user.email
-  //     }
-  //   });
-  // }
-  // Student.findOneAndUpdate({username: user.username}, {$set: doc}, callback);
+  // update student profile 
 }
 
 userSchema.statics.updateInstructor = (user, doc) => {

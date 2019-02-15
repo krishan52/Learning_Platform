@@ -1,12 +1,11 @@
-// get register OK
-// post register
-//
-// passport: serialize, deserialize, LocalStrategy
-//
-// get login
-// post login
-//
-// get logout
+/***
+  get signup
+  post signup
+  passport: serialize, deserialize, LocalStrategy
+  get login
+  post login
+  get logout
+***/
 
 const router = require("express").Router();
 const passport = require("passport");
