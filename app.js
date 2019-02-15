@@ -38,11 +38,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  // allows each session to be encrypted from the clients. This deters hackers from hacking into users’ cookies.
   secret: "TKRv0IJsHYqrvagQ#&!F!%V]Ww/4KiVs$s<<MX",
-  // option required by the middleware. If true, the session will be updated even when it hasn’t been modified.
   resave: true,
-  // another required option. This resets sessions which are uninitialized.
   saveUninitialized: true
 }));
 // Initializes the Passport module and Handles Passport sessions
