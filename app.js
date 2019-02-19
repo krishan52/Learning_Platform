@@ -1,3 +1,5 @@
+require('./config/config.js');
+
 const createError = require('http-errors');
 const express = require("express");
 const mongoose = require("mongoose");
@@ -12,7 +14,9 @@ const passport = require("passport");
 const setUpPassport = require("./setuppassport");
 
 // Connect to MongoDB server
-mongoose.connect("mongodb://localhost:27017/e-learn", { useNewUrlParser: true }).catch((err) => {
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => {
+  console.log('Connected to MongoDB.');
+}).catch((err) => {
   console.log('Unable to connnect to MongoDB:', err.message);
 });
 
