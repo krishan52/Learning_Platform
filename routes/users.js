@@ -13,7 +13,7 @@ const User = require("./../models/user");
 const Student = require('../models/student');
 const Instructor = require('../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 // GET signup page
 router.get("/signup", function(req, res) {

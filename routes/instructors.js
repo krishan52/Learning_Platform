@@ -4,7 +4,7 @@ const Course = require('./../models/course.js');
 const Instructor = require('./../models/instructor');
 const User = require('./../models/instructor');
 const ensureAuthenticated = require('./../middleware/ensureAuthenticated');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 // GET instructor dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res, next) => {
